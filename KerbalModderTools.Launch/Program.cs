@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KerbalModderTools.Deploy.Library.Extensions;
 
 namespace KerbalModderTools.Launch
 {
@@ -20,7 +21,7 @@ namespace KerbalModderTools.Launch
                  .Build();
 
             IServiceProvider provider = new ServiceCollection()
-                .ConfigureKerbalModderToolsLibrary(configuration)
+                .ConfigureKerbalModderToolsDeployLibrary(configuration)
                 .AddSingleton<KSP_Launcher>()
                 .BuildServiceProvider();
 

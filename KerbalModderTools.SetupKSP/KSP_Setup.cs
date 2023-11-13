@@ -18,6 +18,7 @@ namespace KerbalModderTools.SetupKSP
         private const string WinPixEventRuntimeDLL = "WinPixEventRuntime.dll";
         private const string KSP_x64_Data = "KSP_x64_Data";
         private const string KSP_x64_Dbg_Data = "KSP_x64_Dbg_Data";
+        private const string BootConfig = "boot.config";
 
         private readonly EnvironmentLoader _environment;
         private readonly Constants _constants;
@@ -68,6 +69,8 @@ namespace KerbalModderTools.SetupKSP
 
         private static void CopyUnityDebugFilesToDevInstance(string unity_dir, string dev_dir, string ksp_x64_dbg)
         {
+            File.AppendAllText(Path.Combine(dev_dir, KSP_x64_Data, BootConfig), "player-connection-debug=1");
+
             File.Copy(Path.Combine(unity_dir, WindowsPlayerEXE), Path.Combine(dev_dir, ksp_x64_dbg));
             File.Copy(Path.Combine(unity_dir, UnityPlayerDLL), Path.Combine(dev_dir, UnityPlayerDLL), true);
             File.Copy(Path.Combine(unity_dir, WinPixEventRuntimeDLL), Path.Combine(dev_dir, WinPixEventRuntimeDLL));
