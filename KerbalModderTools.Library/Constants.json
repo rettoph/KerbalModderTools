@@ -1,0 +1,10 @@
+{
+  "Constants": {
+    "KSP_x64_DBG": "ksp_x64_dbg.exe",
+    "STEAM_KSP_DIR": "D:\\SteamLibrary\\steamapps\\common\\Kerbal Space Program",
+    "UNITY_DIR": "D:\\UnityHub\\2019.4.18f1\\Editor\\Data\\PlaybackEngines\\windowsstandalonesupport\\Variations\\win64_development_mono",
+    "Environment": {
+      "KSP_DIR": "KSP_DIR"
+    }
+  }
+}
