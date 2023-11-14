@@ -26,6 +26,8 @@ namespace KerbalModderTools.Launch
                 .BuildServiceProvider();
 
             provider.GetRequiredService<KSP_Launcher>().Launch();
+
+            Console.ReadLine();
         }
     }
 }

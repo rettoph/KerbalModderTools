@@ -24,6 +24,8 @@ namespace KerbalModderTools.Launch
 
         public void Launch()
         {
+            this.KillRunningInstances();
+
             if(_deployer.TryDeploy())
             {
                 //Process.Start(_ksp_x64_dbg, "-popupwindow");
@@ -31,6 +33,27 @@ namespace KerbalModderTools.Launch
 
                 Console.WriteLine("KSP has been started. To debug open Debug > Attach Unity Debugger");
             }
+        }
+
+        private Process KillRunningInstances()
+        {
+            foreach(Process process in Process.GetProcesses())
+            {
+                try
+                {
+                    if (process.MainModule.FileName.StartsWith(_ksp_x64_dbg))
+                    {
+                        process.Kill();
+                        process.WaitForExit();
+                    }
+                }
+                catch(Exception e)
+                {
+                    //
+                }
+            }
+
+            return null;
         }
     }
 }

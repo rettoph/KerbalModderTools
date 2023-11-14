@@ -31,6 +31,7 @@ namespace KerbalModderTools.Deploy.Library
                 return false;
             }
 
+            bool result = true;
             string deployDirectory = Path.GetDirectoryName(configFile);
             string[] deployTargets = File.ReadAllLines(configFile);
 
@@ -41,10 +42,44 @@ namespace KerbalModderTools.Deploy.Library
 
                 _logger.Verbose("Building {DeployTarget} at {DeployTargetOutput}", deployTarget, deployTargetOutput);
 
-                Process.Start("cmd.exe", $"/C dotnet build \"{deployTargetPath}\" -o \"{deployTargetOutput}\" -r any").WaitForExit();
+                _logger.Verbose($"dotnet build \"{deployTargetPath}\" -o \"{deployTargetOutput}\" -r any -c Debug /p:Platform=AnyCPU");
+                var process = new Process()
+                {
+                    StartInfo = new ProcessStartInfo()
+                    {
+                        FileName = "cmd.exe",
+                        Arguments = $"/C dotnet build \"{deployTargetPath}\" -o \"{deployTargetOutput}\" -r any -c Debug /p:Platform=AnyCPU",
+                        RedirectStandardError = true,
+                        RedirectStandardOutput = true,
+                        CreateNoWindow = true,
+                        UseShellExecute = false
+                    }
+                };
+
+                process.OutputDataReceived += (s, e) =>
+                {
+                    _logger.Verbose(e.Data);
+                };
+
+                process.ErrorDataReceived += (s, e) =>
+                {
+                    _logger.Error(e.Data);
+                };
+
+                process.Start();
+                process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
+                process.WaitForExit();
+
+                var exitCode = process.ExitCode;
+
+                if(exitCode != 0)
+                {
+                    result &= false;
+                }
             }
 
-            return true;
+            return result;
         }
 
         private bool TryFindDeployConfig(out string configFile)
