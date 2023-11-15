@@ -15,6 +15,7 @@ namespace KerbalModderTools.Launch
     {
         private readonly string _ksp_x64_dbg;
         private readonly Deployer _deployer;
+        private Process _process;
 
         public KSP_Launcher(IOptions<Constants> constants, EnvironmentLoader environment, Deployer deployer)
         {
@@ -29,9 +30,22 @@ namespace KerbalModderTools.Launch
             if(_deployer.TryDeploy())
             {
                 //Process.Start(_ksp_x64_dbg, "-popupwindow");
-                Process.Start(_ksp_x64_dbg);
+                _process = Process.Start(_ksp_x64_dbg);
 
                 Console.WriteLine("KSP has been started. To debug open Debug > Attach Unity Debugger");
+
+                AppDomain.CurrentDomain.ProcessExit += this.HandleProcessExit;
+                _process.WaitForExit();
+            }
+        }
+
+        private void HandleProcessExit(object sender, EventArgs e)
+        {
+            AppDomain.CurrentDomain.ProcessExit -= this.HandleProcessExit;
+
+            if(_process.HasExited == false)
+            {
+                _process.Kill();
             }
         }
 
