@@ -1,13 +1,6 @@
 ﻿using KerbalModderTools.Library;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KerbalModderTools.SetupKSP
 {
@@ -48,7 +41,7 @@ namespace KerbalModderTools.SetupKSP
                 {
                     Directory.Delete(ksp_dir, true);
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     Console.WriteLine("Warning: " + e.Message);
                 }
@@ -59,7 +52,7 @@ namespace KerbalModderTools.SetupKSP
         {
             Directory.CreateDirectory(dev_dir);
 
-            if(Directory.Exists(steam_dir) == false)
+            if (Directory.Exists(steam_dir) == false)
             {
                 throw new DirectoryNotFoundException(steam_dir);
             }

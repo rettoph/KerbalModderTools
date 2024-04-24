@@ -1,9 +1,4 @@
 ﻿using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KerbalModderTools.Library
 {
@@ -21,9 +16,9 @@ namespace KerbalModderTools.Library
 
         public string Get(string variable)
         {
-            string value = Environment.GetEnvironmentVariable(variable);
+            string? value = Environment.GetEnvironmentVariable(variable);
 
-            if(value == string.Empty || value is null)
+            if (value == string.Empty || value is null)
             {
                 throw new KeyNotFoundException($"Environment Variable '{variable}' not found.");
             }
